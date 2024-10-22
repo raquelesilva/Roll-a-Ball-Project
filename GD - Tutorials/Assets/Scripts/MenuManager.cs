@@ -48,4 +48,9 @@ public class MenuManager : MonoBehaviour
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().ToString());
     }
+
+    public void LeaveGame()
+    {
+        Application.Quit();
+    }
 }

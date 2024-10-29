@@ -31,7 +31,7 @@ public class EnemySpawner : MonoBehaviour
 
         int randomEnemy = Random.Range(0, enemiesToSpawn.Count);
 
-        enemies.Add(Instantiate(enemiesToSpawn[randomEnemy]));
+        enemies.Add(Instantiate(enemiesToSpawn[randomEnemy], transform));
 
         StartCoroutine(SpawnEnemy());
     }

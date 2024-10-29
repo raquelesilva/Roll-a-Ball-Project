@@ -31,6 +31,10 @@ public class PlayerController : MonoBehaviour
     private void Awake()
     {
         instance = this;
+
+        transform.position = Vector3.up;
+
+        DontDestroyOnLoad(gameObject);
     }
 
     // Start is called before the first frame update
@@ -103,6 +107,4 @@ public class PlayerController : MonoBehaviour
             EnemySpawner.instance.DestroyAllEnemies();
         }
     }
-
-    
 }

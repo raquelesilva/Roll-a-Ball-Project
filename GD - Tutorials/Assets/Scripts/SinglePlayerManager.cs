@@ -2,11 +2,11 @@ using UnityEngine;
 
 public class SinglePlayerManager : MonoBehaviour
 {
-    [SerializeField] Player playerSO;
+    [SerializeField] Player player;
 
     void Start()
     {
-        Level currentLevel = playerSO.GetCurrentLevel();
+        Level currentLevel = player.GetCurrentLevel();
         Instantiate(currentLevel.GetWorldPrefab());
     }
 }

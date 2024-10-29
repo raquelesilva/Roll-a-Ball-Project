@@ -1,16 +1,20 @@
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "Material", menuName = "Scriptable Objects/Material")]
-public class MaterialSO: ScriptableObject
+public class MaterialSO: MonoBehaviour
 {
-    [SerializeField] bool isUnlocked = false;
+    [SerializeField] bool isLocked = false;
     [SerializeField] Material material;
+    [SerializeField] Sprite previewMaterial;
 
     // GETTERS
-    public bool GetState() { return isUnlocked; }
+    public bool IsLocked() { return isLocked; }
 
     public Material GetMaterial() { return material; }
 
+    public Sprite GetPreview() { return previewMaterial; }
+
+
     // SETTERS
-    public void SetUnlocked() { isUnlocked = true; }
+    public void Unlock() { isLocked = false; }
 }   

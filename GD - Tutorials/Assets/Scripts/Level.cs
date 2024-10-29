@@ -2,7 +2,7 @@ using UnityEngine;
 using System;
 
 [CreateAssetMenu(fileName = "Level", menuName = "Scriptable Objects/Level")]
-public class Level : ScriptableObject
+public class Level : MonoBehaviour
 {
     [SerializeField] bool isUnlocked = false;
     [SerializeField] int level;

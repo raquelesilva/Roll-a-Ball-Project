@@ -12,7 +12,12 @@ public class LevelsManager : MonoBehaviour
     [SerializeField] GameObject buttonPrefab;
     [SerializeField] Transform buttonParent;
 
-    [SerializeField] Player playerSO;
+    Player player;
+
+    private void Start()
+    {
+        player = Player.instance;
+    }
 
     private void OnEnable()
     {
@@ -29,11 +34,8 @@ public class LevelsManager : MonoBehaviour
 
             currentGO.GetComponentInChildren<TextMeshProUGUI>().text = level.GetLevel().ToString();
 
-            if (!level.GetState())
-            {
-                currentButton.interactable = false;
-                currentButton.transform.GetChild(1).gameObject.SetActive(true);
-            }
+            currentButton.interactable = level.GetState();
+            currentButton.transform.GetChild(1).gameObject.SetActive(!level.GetState());
 
             currentButton.onClick.AddListener(() => PlayLevel(level));
         }
@@ -41,7 +43,7 @@ public class LevelsManager : MonoBehaviour
 
     public void PlayLevel(Level level)
     {
-        playerSO.SetCurrentLevel(level);
+        player.SetCurrentLevel(level);
 
         SceneManager.LoadScene(1);
     }

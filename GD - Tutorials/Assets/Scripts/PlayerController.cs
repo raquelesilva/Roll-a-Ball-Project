@@ -15,16 +15,7 @@ public class PlayerController : MonoBehaviour
     private float movementY;
     [SerializeField] float speed = 0;
 
-    [SerializeField] int points = 0;
-    [SerializeField] float life = 100;
-    [SerializeField] Transform pickupObjsParent;
-    [SerializeField] List<GameObject> pickupObjs;
-
-    [Header("UI Elements")]
-    [SerializeField] TextMeshProUGUI pointsTxt;
-    [SerializeField] GameObject winWindow;
-    [SerializeField] GameObject loseWindow;
-    [SerializeField] Image lifeBar;
+    public SinglePlayerManager singlePlayerManager;
 
     public static PlayerController instance;
 
@@ -32,26 +23,9 @@ public class PlayerController : MonoBehaviour
     {
         instance = this;
 
-        transform.position = Vector3.up;
-
         DontDestroyOnLoad(gameObject);
-    }
 
-    // Start is called before the first frame update
-    void Start()
-    {
         rb = GetComponent<Rigidbody>();
-        pointsTxt.text = "Points: " + points.ToString();
-        lifeBar.fillAmount = life / 100;
-
-        if (pickupObjsParent != null)
-        {
-            pickupObjs.Clear();
-            for (int i = 0; i < pickupObjsParent.childCount; i++)
-            {
-                pickupObjs.Add(pickupObjsParent.GetChild(i).gameObject);
-            }
-        }
     }
 
     // Update is called once per frame
@@ -75,36 +49,15 @@ public class PlayerController : MonoBehaviour
         if (other.CompareTag("PickUp"))
         {
             other.gameObject.SetActive(false);
-            CheckPoints();
-        }
-
-        if (other.CompareTag("Enemy"))
-        {
-            life -= 10;
-            lifeBar.fillAmount = life / 100;
-
-            if (life <= 0)
-            {
-                life = 0;
-                loseWindow.SetActive(true);
-                Destroy(gameObject);
-            }
+            singlePlayerManager.CheckPoints();
         }
     }
 
-    private void CheckPoints()
+    private void OnTriggerStay(Collider other)
     {
-        points += 5;
-
-        pointsTxt.text = "Points: " + points.ToString();
-
-        if (points >= pickupObjs.Count * 5)
+        if (other.CompareTag("Enemy"))
         {
-            winWindow.SetActive(true);
-
-            MenuManager.instance.PauseGame();
-
-            EnemySpawner.instance.DestroyAllEnemies();
+            singlePlayerManager.CheckLife();
         }
     }
 }

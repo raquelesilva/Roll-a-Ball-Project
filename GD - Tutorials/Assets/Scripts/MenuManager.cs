@@ -49,6 +49,11 @@ public class MenuManager : MonoBehaviour
         SceneManager.LoadScene(SceneManager.GetActiveScene().ToString());
     }
 
+    public void GotoMainMenu()
+    {
+        SceneManager.LoadScene(0);
+    }
+
     public void LeaveGame()
     {
         Application.Quit();

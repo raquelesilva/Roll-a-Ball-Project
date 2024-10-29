@@ -19,10 +19,6 @@ public class MaterialManager : MonoBehaviour
     private void Start()
     {
         player = Player.instance;
-    }
-
-    private void OnEnable()
-    {
         SetButtons();
     }
 

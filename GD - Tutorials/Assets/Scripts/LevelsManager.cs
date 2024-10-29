@@ -17,10 +17,6 @@ public class LevelsManager : MonoBehaviour
     private void Start()
     {
         player = Player.instance;
-    }
-
-    private void OnEnable()
-    {
         SetButtons();
     }
 

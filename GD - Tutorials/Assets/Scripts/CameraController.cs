@@ -8,6 +8,8 @@ public class CameraController : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        player = Player.instance.gameObject;
+
         offset = transform.position - player.transform.position;
     }
 
@@ -16,8 +18,8 @@ public class CameraController : MonoBehaviour
     {
         if (player != null)
         {
-            transform.LookAt(player.transform);
             transform.position = player.transform.position + offset;
+            transform.LookAt(player.transform);
         }
     }
 }

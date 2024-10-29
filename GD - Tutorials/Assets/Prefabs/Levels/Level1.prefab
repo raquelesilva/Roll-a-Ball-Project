@@ -44,7 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1a6c8aacc748c4498f4787f9b9e9dcc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isLocked: 1
+  isUnlocked: 1
   level: 1
   levelPoints: 0
   worldPrefab: {fileID: 2559891669490964053, guid: 12c77ac412c1c5a49a6f12703a20d81f,

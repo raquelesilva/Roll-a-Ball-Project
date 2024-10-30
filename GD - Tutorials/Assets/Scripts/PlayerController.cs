@@ -51,10 +51,7 @@ public class PlayerController : MonoBehaviour
             other.gameObject.SetActive(false);
             singlePlayerManager.CheckPoints();
         }
-    }
 
-    private void OnTriggerStay(Collider other)
-    {
         if (other.CompareTag("Enemy"))
         {
             singlePlayerManager.CheckLife();

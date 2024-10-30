@@ -20,42 +20,30 @@ public class MenuManager : MonoBehaviour
 
     public void PauseGame()
     {
-        playerController.GetComponent<PlayerInput>().enabled = false;
-        playerController.rb.Sleep();
-
-        List<GameObject> enemies = EnemySpawner.instance.enemies;
-
-        for (int i = 0; i < enemies.Count; i++)
-        {
-            enemies[i].GetComponent<Rigidbody>().Sleep();
-        }
+        Time.timeScale = 0;
     }
 
-    public void UnpauseGame()
+    public void ResumeGame()
     {
-        playerController.GetComponent<PlayerInput>().enabled = true;
-        playerController.rb.WakeUp();
-
-        List<GameObject> enemies = EnemySpawner.instance.enemies;
-
-        for (int i = 0; i < enemies.Count; i++)
-        {
-            enemies[i].GetComponent<Rigidbody>().WakeUp();
-        }
+        Time.timeScale = 1;
     }
 
     public void RestartScene()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().ToString());
+        Time.timeScale = 1;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        SinglePlayerManager.instance.SetWorld();
     }
 
     public void GotoMainMenu()
     {
+        Time.timeScale = 1;
         SceneManager.LoadScene(0);
     }
 
     public void LeaveGame()
     {
+        Time.timeScale = 1;
         Application.Quit();
     }
 }

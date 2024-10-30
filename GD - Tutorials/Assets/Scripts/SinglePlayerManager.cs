@@ -35,6 +35,11 @@ public class SinglePlayerManager : MonoBehaviour
     {
         player = Player.instance;
 
+        SetWorld();
+    }
+
+    public void SetWorld()
+    {
         Level currentLevel = player.GetCurrentLevel();
         Transform currentWorld = Instantiate(currentLevel.GetWorldPrefab()).transform;
 
@@ -79,6 +84,10 @@ public class SinglePlayerManager : MonoBehaviour
         if (points >= pickupObjs.Count * 5)
         {
             winWindow.SetActive(true);
+
+            Level currentLevelGO = player.GetCurrentLevel();
+            int currentLevel = currentLevelGO.GetLevel();
+            //LevelsManager.instance.levels[1];
 
             MenuManager.instance.PauseGame();
 

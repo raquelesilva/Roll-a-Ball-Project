@@ -6,13 +6,20 @@ using UnityEngine.UI;
 
 public class LevelsManager : MonoBehaviour
 {
-    [SerializeField] List<Level> levels = new List<Level>();
+    [SerializeField] public List<Level> levels = new List<Level>();
     [SerializeField] List<GameObject> buttons = new List<GameObject>();
 
     [SerializeField] GameObject buttonPrefab;
     [SerializeField] Transform buttonParent;
 
     Player player;
+
+    public static LevelsManager instance;
+
+    private void Awake()
+    {
+        instance = this;
+    }
 
     private void Start()
     {

@@ -20,6 +20,7 @@ public class LevelsManager : MonoBehaviour
     private void Awake()
     {
         instance = this;
+        gameObject.SetActive(false);
     }
 
     private void Start()
@@ -48,15 +49,12 @@ public class LevelsManager : MonoBehaviour
 
     public void PlayLevel(Level level)
     {
-        //SceneManager.LoadScene(1);
-
         menuManager.mainMenuWindow.SetActive(false);
         menuManager.levelsMenuWindow.SetActive(false);
         menuManager.materialsMenuWindow.SetActive(false);
         menuManager.gameMenu.SetActive(true);
 
         player.SetCurrentLevel(level);
-
 
         SinglePlayerManager.instance.SetWorld();
     }

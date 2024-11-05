@@ -40,7 +40,6 @@ public class MenuManager : MonoBehaviour
     public void RestartScene()
     {
         Time.timeScale = 1;
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         SinglePlayerManager.instance.SetWorld();
     }
 
@@ -55,6 +54,11 @@ public class MenuManager : MonoBehaviour
         gameMenu.SetActive(false);
     }
 
+    public void GotoNextLevel()
+    {
+        Player.instance.SetCurrentLevelINT(Player.instance.GetCurrentLevelINT() + 1);
+        LevelsManager.instance.PlayLevel(Player.instance.GetCurrentLevel());
+    }
 
     public void LeaveGame()
     {

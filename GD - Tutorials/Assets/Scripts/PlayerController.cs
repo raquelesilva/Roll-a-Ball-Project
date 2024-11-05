@@ -3,6 +3,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
+using DG.Tweening;
 
 public class PlayerController : MonoBehaviour
 {
@@ -13,6 +14,8 @@ public class PlayerController : MonoBehaviour
     private float movementX;
     private float movementY;
     [SerializeField] float speed = 0;
+
+    [SerializeField] private Image impact;
 
     public SinglePlayerManager singlePlayerManager;
 
@@ -59,6 +62,12 @@ public class PlayerController : MonoBehaviour
         if (other.CompareTag("Enemy"))
         {
             singlePlayerManager.CheckLife();
+
+            for (int i = 0; i < 2; i++)
+            {
+                impact.DOColor(new Color(0, 0, 0, 1), 1);
+                impact.DOColor(new Color(0, 0, 0, 0), 1);  
+            }
         }
     }
 }

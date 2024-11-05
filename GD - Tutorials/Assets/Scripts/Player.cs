@@ -9,11 +9,18 @@ public class Player : MonoBehaviour
 
     [SerializeField] Level currentLevel;
 
+    LevelsManager levelsManager;
+
     public static Player instance;
 
     private void Awake()
     {
         instance = this;
+    }
+
+    private void Start()
+    {
+        levelsManager = LevelsManager.instance;
     }
 
     // GETTERS
@@ -22,6 +29,26 @@ public class Player : MonoBehaviour
     public int GetSpeedMultiplier () { return speedMultiplier; }
 
     public Level GetCurrentLevel () { return currentLevel; }
+
+    public int GetCurrentLevelINT () 
+    {
+        int currentLevelInt = 0;
+
+        Debug.Log(levelsManager);
+        Debug.Log(levelsManager.levels);
+        Debug.Log(levelsManager.levels.Count);
+
+        for (int i = 0; i < levelsManager.levels.Count; i++)
+        {
+            Level level = levelsManager.levels[i];
+            if (level == currentLevel)
+            {
+                currentLevelInt = i;
+            }
+        }
+
+        return currentLevelInt; 
+    }
     
     // SETTERS
     public void SetMaterial (Material chosenMaterial) 
@@ -33,4 +60,6 @@ public class Player : MonoBehaviour
     public void SetSpeedMultiplier (int multiplier) { speedMultiplier = multiplier; }
 
     public void SetCurrentLevel (Level level) { currentLevel = level; }
+
+    public void SetCurrentLevelINT (int level) { currentLevel = levelsManager.levels[level]; }
 }

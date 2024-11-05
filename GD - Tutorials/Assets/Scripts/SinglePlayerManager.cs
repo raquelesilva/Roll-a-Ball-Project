@@ -9,13 +9,17 @@ public class SinglePlayerManager : MonoBehaviour
     [SerializeField] float life = 100;
 
     [Header("UI Elements")]
-    [SerializeField] TextMeshProUGUI pointsTxt;
-    [SerializeField] GameObject winWindow;
-    [SerializeField] GameObject loseWindow;
-    [SerializeField] Image lifeBar;
+    [SerializeField] private TextMeshProUGUI pointsTxt;
+    [SerializeField] private GameObject nextLevelButton;
+    [SerializeField] private GameObject pauseWindow;
+    [SerializeField] private GameObject winWindow;
+    [SerializeField] private GameObject loseWindow;
+    [SerializeField] private Image lifeBar;
 
-    [SerializeField] Transform pickupObjsParent;
+    [SerializeField] public Transform currentWorld;
+    [SerializeField] private Transform pickupObjsParent;
     [SerializeField] public List<GameObject> pickupObjs;
+    [SerializeField] public List<GameObject> powerupsObjs;
 
     Player player;
     PlayerController playerController;
@@ -36,10 +40,30 @@ public class SinglePlayerManager : MonoBehaviour
         player = Player.instance;
     }
 
+    public void ResetGameUI()
+    {
+        points = 0;
+        life = 100;
+        pointsTxt.text = "Points: " + points.ToString();
+        lifeBar.fillAmount = life  / 100;
+    }
+
     public void SetWorld()
     {
+        MenuManager.instance.ResumeGame();
+        pauseWindow.SetActive(false);
+
+        winWindow.SetActive(false);
+        loseWindow.SetActive(false);
+
+        if (currentWorld != null) 
+        {
+            Destroy(currentWorld.gameObject);
+            currentWorld = null;
+        }
+
         Level currentLevel = player.GetCurrentLevel();
-        Transform currentWorld = Instantiate(currentLevel.GetWorldPrefab()).transform;
+        currentWorld = Instantiate(currentLevel.GetWorldPrefab()).transform;
 
         player.transform.position = Vector3.up + currentWorld.position + Vector3.up;
         player.GetComponent<Rigidbody>().useGravity = true;
@@ -55,8 +79,7 @@ public class SinglePlayerManager : MonoBehaviour
             }
         }
 
-        pointsTxt.text = "Points: " + points.ToString();
-        lifeBar.fillAmount = life / 100;
+        ResetGameUI();
     }
 
     public void CheckLife()
@@ -67,9 +90,10 @@ public class SinglePlayerManager : MonoBehaviour
         if (life <= 0)
         {
             life = 0;
-            loseWindow.SetActive(true);
 
-            //Destroy(player.gameObject);
+            MenuManager.instance.PauseGame();
+            loseWindow.SetActive(true);
+            nextLevelButton.SetActive(false);
         }
     }
 
@@ -83,15 +107,23 @@ public class SinglePlayerManager : MonoBehaviour
         {
             winWindow.SetActive(true);
 
+
             Level currentLevelGO = player.GetCurrentLevel();
             int currentLevel = currentLevelGO.GetLevel();
-            //LevelsManager.instance.levels[1];
+            
+            if (currentLevel >= LevelsManager.instance.levels.Count)
+            {
+                nextLevelButton.SetActive(false);
+            }
+            else
+            {
+                nextLevelButton.SetActive(true);
+                LevelsManager.instance.levels[currentLevel].UnlockLevel();
+            }
 
             MenuManager.instance.PauseGame();
 
             EnemySpawner.instance.DestroyAllEnemies();
-
-            LevelsManager.instance.levels[currentLevel + 1].UnlockLevel();
         }
     }
 }

@@ -46,4 +46,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isLocked: 1
   material: {fileID: 2100000, guid: f80b80a4be21cbf4885fa30abcc4fbe1, type: 2}
-  previewMaterial: {fileID: 10915, guid: 0000000000000000f000000000000000, type: 0}
+  previewMaterial: {fileID: -1056533899, guid: 9714241c77917f04286632289e2ae3a9, type: 3}

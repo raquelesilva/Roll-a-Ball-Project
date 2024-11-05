@@ -28,14 +28,12 @@ public class SinglePlayerManager : MonoBehaviour
 
         playerController = PlayerController.instance;
 
-        playerController.singlePlayerManager = this;
+        //playerController.singlePlayerManager = this;
     }
 
     void Start()
     {
         player = Player.instance;
-
-        SetWorld();
     }
 
     public void SetWorld()
@@ -92,6 +90,8 @@ public class SinglePlayerManager : MonoBehaviour
             MenuManager.instance.PauseGame();
 
             EnemySpawner.instance.DestroyAllEnemies();
+
+            LevelsManager.instance.levels[currentLevel + 1].UnlockLevel();
         }
     }
 }

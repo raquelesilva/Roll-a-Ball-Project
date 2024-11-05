@@ -1,12 +1,19 @@
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
+using System.Collections.Generic;
+using UnityEngine.UI;
+using UnityEngine;
+using TMPro;
 
 public class MenuManager : MonoBehaviour
 {
     PlayerController playerController;
     public static MenuManager instance;
+
+    [Header("Windows")]
+    [SerializeField] public GameObject mainMenuWindow;
+    [SerializeField] public GameObject levelsMenuWindow;
+    [SerializeField] public GameObject materialsMenuWindow;
+    [SerializeField] public GameObject gameMenu;
 
     private void Awake()
     {
@@ -16,6 +23,8 @@ public class MenuManager : MonoBehaviour
     private void Start()
     {
         playerController = PlayerController.instance;
+
+        DontDestroyOnLoad(gameObject);
     }
 
     public void PauseGame()
@@ -39,7 +48,13 @@ public class MenuManager : MonoBehaviour
     {
         Time.timeScale = 1;
         SceneManager.LoadScene(0);
+
+        mainMenuWindow.SetActive(true);
+        levelsMenuWindow.SetActive(false);
+        materialsMenuWindow.SetActive(false);
+        gameMenu.SetActive(false);
     }
+
 
     public void LeaveGame()
     {

@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using TMPro;
-using UnityEditor.SearchService;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
@@ -26,6 +25,11 @@ public class PlayerController : MonoBehaviour
         DontDestroyOnLoad(gameObject);
 
         rb = GetComponent<Rigidbody>();
+    }
+
+    private void Start()
+    {
+        singlePlayerManager = SinglePlayerManager.instance;
     }
 
     // Update is called once per frame

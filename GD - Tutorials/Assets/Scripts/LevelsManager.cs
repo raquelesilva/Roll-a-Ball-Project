@@ -14,6 +14,7 @@ public class LevelsManager : MonoBehaviour
 
     Player player;
 
+    public MenuManager menuManager;
     public static LevelsManager instance;
 
     private void Awake()
@@ -23,6 +24,7 @@ public class LevelsManager : MonoBehaviour
 
     private void Start()
     {
+        menuManager = MenuManager.instance;
         player = Player.instance;
         SetButtons();
     }
@@ -46,8 +48,16 @@ public class LevelsManager : MonoBehaviour
 
     public void PlayLevel(Level level)
     {
+        //SceneManager.LoadScene(1);
+
+        menuManager.mainMenuWindow.SetActive(false);
+        menuManager.levelsMenuWindow.SetActive(false);
+        menuManager.materialsMenuWindow.SetActive(false);
+        menuManager.gameMenu.SetActive(true);
+
         player.SetCurrentLevel(level);
 
-        SceneManager.LoadScene(1);
+
+        SinglePlayerManager.instance.SetWorld();
     }
 }

@@ -14,11 +14,11 @@ public class MaterialManager : MonoBehaviour
     [SerializeField] GameObject buttonPrefab;
     [SerializeField] Transform buttonParent;
 
-    Player player;
+    WorldHolder player;
 
     private void Start()
     {
-        player = Player.instance;
+        player = WorldHolder.instance;
         SetButtons();
     }
 

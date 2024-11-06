@@ -1,5 +1,6 @@
 using DG.Tweening;
 using System.Collections;
+using System.Threading;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
@@ -16,7 +17,9 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] private Image impact;
 
-    public SinglePlayerManager singlePlayerManager;
+    public GameManager singlePlayerManager;
+
+    private Health myHealth;
 
     public static PlayerController instance;
 
@@ -27,11 +30,12 @@ public class PlayerController : MonoBehaviour
         DontDestroyOnLoad(gameObject);
 
         rb = GetComponent<Rigidbody>();
+        myHealth = GetComponent<Health>();
     }
 
     private void Start()
     {
-        singlePlayerManager = SinglePlayerManager.instance;
+        singlePlayerManager = GameManager.instance;
     }
 
     // Update is called once per frame
@@ -42,9 +46,10 @@ public class PlayerController : MonoBehaviour
         rb.AddForce(movement * speed);
     }
 
-    void OnMove(InputValue movementValue)
+
+    public void OnMove(InputAction.CallbackContext callBackContext)
     {
-        Vector2 movementVector = movementValue.Get<Vector2>();
+        Vector2 movementVector = callBackContext.ReadValue<Vector2>();
 
         movementX = movementVector.x;
         movementY = movementVector.y;
@@ -60,7 +65,8 @@ public class PlayerController : MonoBehaviour
 
         if (other.CompareTag("Enemy"))
         {
-            singlePlayerManager.CheckLife();
+            //singlePlayerManager.CheckLife();
+            myHealth.TakeDamage();
 
             StartCoroutine(FlashRed());
         }
@@ -89,4 +95,15 @@ public class PlayerController : MonoBehaviour
         impact.DOColor(new Color(255, 255, 255, 0), .5f);
         yield return new WaitForSeconds(.5f);
     }
+
+    public Health GetHealth()
+    {
+        return myHealth;
+    }
+    public Rigidbody GetRigidBody()
+    {
+        return rb;
+    }
+
+    
 }

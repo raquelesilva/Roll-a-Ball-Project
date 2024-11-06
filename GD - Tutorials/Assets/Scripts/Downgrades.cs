@@ -29,7 +29,7 @@ public class Downgrades : MonoBehaviour
 
         if (isSpeed)
         {
-            Player.instance.SetSpeedMultiplier(-speed);
+            WorldHolder.instance.SetSpeedMultiplier(-speed);
         }
         else
         {

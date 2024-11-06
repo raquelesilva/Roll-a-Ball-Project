@@ -1,9 +1,10 @@
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "Player", menuName = "Scriptable Objects/Player")]
-public class Player : MonoBehaviour
+public class WorldHolder : MonoBehaviour
 {
-    [SerializeField] Material material;
+    [SerializeField] Material materialPlayer1;
+    [SerializeField] Material materialPlayer2;
 
     [SerializeField] int speedMultiplier;
 
@@ -11,7 +12,7 @@ public class Player : MonoBehaviour
 
     LevelsManager levelsManager;
 
-    public static Player instance;
+    public static WorldHolder instance;
 
     private void Awake()
     {
@@ -24,7 +25,7 @@ public class Player : MonoBehaviour
     }
 
     // GETTERS
-    public Material GetMaterial () { return material; }
+    public Material GetMaterial () { return materialPlayer1; }
 
     public int GetSpeedMultiplier () { return speedMultiplier; }
 
@@ -52,9 +53,9 @@ public class Player : MonoBehaviour
     
     // SETTERS
     public void SetMaterial (Material chosenMaterial) 
-    { 
-        material = chosenMaterial;
-        GetComponent<Renderer>().material = chosenMaterial;
+    {
+        materialPlayer1 = chosenMaterial;
+        GameManager.instance.GetPlayer1().GetComponent<Renderer>().material = chosenMaterial;
     }
 
     public void SetSpeedMultiplier (int multiplier) { speedMultiplier = multiplier; }

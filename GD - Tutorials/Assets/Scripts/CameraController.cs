@@ -8,7 +8,7 @@ public class CameraController : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        player = Player.instance.gameObject;
+        player = WorldHolder.instance.gameObject;
 
         offset = transform.position - player.transform.position;
     }

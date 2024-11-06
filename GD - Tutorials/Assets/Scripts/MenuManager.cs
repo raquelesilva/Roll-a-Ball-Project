@@ -40,17 +40,17 @@ public class MenuManager : MonoBehaviour
     public void RestartScene()
     {
         Time.timeScale = 1;
-        SinglePlayerManager.instance.SetWorld();
+        GameManager.instance.SetWorld();
     }
 
     public void GotoMainMenu()
     {
         Time.timeScale = 1;
         
-        if (SinglePlayerManager.instance.currentWorld != null)
+        if (GameManager.instance.currentWorld != null)
         {
-            Destroy(SinglePlayerManager.instance.currentWorld.gameObject);
-            SinglePlayerManager.instance.currentWorld = null;
+            Destroy(GameManager.instance.currentWorld.gameObject);
+            GameManager.instance.currentWorld = null;
         }
 
         mainMenuWindow.SetActive(true);
@@ -61,8 +61,8 @@ public class MenuManager : MonoBehaviour
 
     public void GotoNextLevel()
     {
-        Player.instance.SetCurrentLevelINT(Player.instance.GetCurrentLevelINT() + 1);
-        LevelsManager.instance.PlayLevel(Player.instance.GetCurrentLevel());
+        WorldHolder.instance.SetCurrentLevelINT(WorldHolder.instance.GetCurrentLevelINT() + 1);
+        LevelsManager.instance.PlayLevel(WorldHolder.instance.GetCurrentLevel());
     }
 
     public void LeaveGame()

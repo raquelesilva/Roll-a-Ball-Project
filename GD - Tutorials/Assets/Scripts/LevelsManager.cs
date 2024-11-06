@@ -12,7 +12,7 @@ public class LevelsManager : MonoBehaviour
     [SerializeField] GameObject buttonPrefab;
     [SerializeField] Transform buttonParent;
 
-    Player player;
+    WorldHolder player;
 
     public MenuManager menuManager;
     public static LevelsManager instance;
@@ -26,7 +26,7 @@ public class LevelsManager : MonoBehaviour
     private void Start()
     {
         menuManager = MenuManager.instance;
-        player = Player.instance;
+        player = WorldHolder.instance;
         SetButtons();
     }
 
@@ -56,6 +56,6 @@ public class LevelsManager : MonoBehaviour
 
         player.SetCurrentLevel(level);
 
-        SinglePlayerManager.instance.SetWorld();
+        GameManager.instance.SetWorld();
     }
 }

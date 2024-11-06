@@ -1,12 +1,18 @@
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class SinglePlayerManager : MonoBehaviour
+public class GameManager : MonoBehaviour
 {
+    public static GameManager instance;
+
+    [SerializeField] private GameType gameType;
+    [SerializeField] private PlayerController player1;
+    [SerializeField] private PlayerController player2;
+
     [SerializeField] int points = 0;
-    [SerializeField] float life = 100;
 
     [Header("UI Elements")]
     [SerializeField] private TextMeshProUGUI pointsTxt;
@@ -29,23 +35,16 @@ public class SinglePlayerManager : MonoBehaviour
     [SerializeField] public int powerups;
     [SerializeField] private bool playTimer;
 
-    Player player;
-    PlayerController playerController;
-
-    public static SinglePlayerManager instance;
+    WorldHolder worldHolder;
 
     private void Awake()
     {
         instance = this;
-
-        playerController = PlayerController.instance;
-
-        //playerController.singlePlayerManager = this;
     }
 
     void Start()
     {
-        player = Player.instance;
+        worldHolder = WorldHolder.instance;
     }
 
     private void Update()
@@ -59,10 +58,10 @@ public class SinglePlayerManager : MonoBehaviour
     public void ResetGameUI()
     {
         points = 0;
-        life = 100;
+        player1.GetHealth().SetupLifes();
+        player2.GetHealth().SetupLifes();
         pointsTxt.text = "Points: " + points.ToString();
-        lifeBar.fillAmount = life  / 100;
-        
+
         MenuManager.instance.ResumeGame();
         pauseWindow.SetActive(false);
 
@@ -70,9 +69,23 @@ public class SinglePlayerManager : MonoBehaviour
         loseWindow.SetActive(false);
     }
 
+    public void SetGameType(int newGameType)
+    {
+        gameType = (GameType)newGameType;
+    }
+
     public void SetWorld()
     {
+        player1.gameObject.SetActive(true);
+        player1.GetRigidBody().useGravity = true;
+        player1.GetHealth().SetupLifes();
+
+        player2.gameObject.SetActive(gameType == GameType.MultiPlayer);
+        player2.GetRigidBody().useGravity = gameType == GameType.MultiPlayer;
+        if(gameType == GameType.MultiPlayer) player2.GetHealth().SetupLifes();
+
         playTimer = true;
+
 
         if (currentWorld != null)
         {
@@ -80,11 +93,8 @@ public class SinglePlayerManager : MonoBehaviour
             currentWorld = null;
         }
 
-        Level currentLevel = player.GetCurrentLevel();
+        Level currentLevel = worldHolder.GetCurrentLevel();
         currentWorld = Instantiate(currentLevel.GetWorldPrefab()).transform;
-
-        player.transform.position = Vector3.up + currentWorld.position + Vector3.up;
-        player.GetComponent<Rigidbody>().useGravity = true;
 
         pickupObjsParent = currentWorld.GetChild(currentWorld.childCount - 1);
 
@@ -100,20 +110,12 @@ public class SinglePlayerManager : MonoBehaviour
         ResetGameUI();
     }
 
-    public void CheckLife()
+    public void LoseGame()
     {
-        life -= 10;
-        lifeBar.fillAmount = life / 100;
-
-        if (life <= 0)
-        {
-            life = 0;
-
-            MenuManager.instance.PauseGame();
-            loseWindow.SetActive(true);
-            nextLevelButton.SetActive(false);
-            playTimer = false;
-        }
+        MenuManager.instance.PauseGame();
+        loseWindow.SetActive(true);
+        nextLevelButton.SetActive(false);
+        playTimer = false;
     }
 
     public void CheckPoints()
@@ -131,9 +133,9 @@ public class SinglePlayerManager : MonoBehaviour
             scoreTxt.text = score.ToString();
             powerupsTxt.text = score.ToString();
 
-            Level currentLevelGO = player.GetCurrentLevel();
+            Level currentLevelGO = worldHolder.GetCurrentLevel();
             int currentLevel = currentLevelGO.GetLevel();
-            
+
             if (currentLevel >= LevelsManager.instance.levels.Count)
             {
                 nextLevelButton.SetActive(false);
@@ -148,4 +150,18 @@ public class SinglePlayerManager : MonoBehaviour
             EnemySpawner.instance.DestroyAllEnemies();
         }
     }
+
+    public PlayerController GetPlayer1()
+    {
+        return player1;
+    }
+    public PlayerController GetPlayer2()
+    {
+        return player2;
+    }
+}
+public enum GameType
+{
+    SinglePlayer,
+    MultiPlayer
 }

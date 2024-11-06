@@ -29,7 +29,7 @@ public class Powerups : MonoBehaviour
 
         if (isSpeed)
         {
-            Player.instance.SetSpeedMultiplier(speed);
+            WorldHolder.instance.SetSpeedMultiplier(speed);
         }
         else
         {

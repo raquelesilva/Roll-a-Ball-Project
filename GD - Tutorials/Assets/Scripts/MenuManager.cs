@@ -46,7 +46,12 @@ public class MenuManager : MonoBehaviour
     public void GotoMainMenu()
     {
         Time.timeScale = 1;
-        SceneManager.LoadScene(0);
+        
+        if (SinglePlayerManager.instance.currentWorld != null)
+        {
+            Destroy(SinglePlayerManager.instance.currentWorld.gameObject);
+            SinglePlayerManager.instance.currentWorld = null;
+        }
 
         mainMenuWindow.SetActive(true);
         levelsMenuWindow.SetActive(false);

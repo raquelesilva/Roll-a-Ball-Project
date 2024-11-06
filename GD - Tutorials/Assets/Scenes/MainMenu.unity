@@ -192,6 +192,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8441502285194096102, guid: ade1365451613934c887f15b3adf05e2,
+        type: 3}
+      propertyPath: impact
+      value: 
+      objectReference: {fileID: 2092550372}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -566,6 +571,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 1400294490}
   offset: {x: 0, y: 10, z: 7}
+--- !u!114 &2092550372 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8602521490424644737, guid: ec40a342ec25bb84ca70b17b240ab97e,
+    type: 3}
+  m_PrefabInstance: {fileID: 8206528605192619375}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &8206528605192619375
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -622,7 +639,7 @@ PrefabInstance:
     - target: {fileID: 3655739696154080594, guid: ec40a342ec25bb84ca70b17b240ab97e,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5794916506671118147, guid: ec40a342ec25bb84ca70b17b240ab97e,
         type: 3}
@@ -728,6 +745,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Canvas
+      objectReference: {fileID: 0}
+    - target: {fileID: 8602521490424644737, guid: ec40a342ec25bb84ca70b17b240ab97e,
+        type: 3}
+      propertyPath: m_RaycastTarget
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9192657162492545154, guid: ec40a342ec25bb84ca70b17b240ab97e,
         type: 3}

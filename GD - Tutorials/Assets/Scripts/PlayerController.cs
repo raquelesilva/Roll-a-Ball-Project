@@ -1,9 +1,8 @@
-using System.Collections.Generic;
-using TMPro;
+using DG.Tweening;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
-using DG.Tweening;
 
 public class PlayerController : MonoBehaviour
 {
@@ -63,11 +62,31 @@ public class PlayerController : MonoBehaviour
         {
             singlePlayerManager.CheckLife();
 
-            for (int i = 0; i < 2; i++)
-            {
-                impact.DOColor(new Color(0, 0, 0, 1), 1);
-                impact.DOColor(new Color(0, 0, 0, 0), 1);  
-            }
+            StartCoroutine(FlashRed());
         }
+
+        if (other.CompareTag("Powerup"))
+        {
+            singlePlayerManager.powerups++;
+
+            other.GetComponent<Downgrades>().SetDowngrade();
+        }
+
+        if (other.CompareTag("Downgrade"))
+        {
+            other.GetComponent<Downgrades>().SetDowngrade();
+        }
+    }
+
+    private IEnumerator FlashRed()
+    {
+        impact.DOColor(new Color(255, 255, 255, 1), .5f);
+        yield return new WaitForSeconds(.5f);
+        impact.DOColor(new Color(255, 255, 255, 0), .5f);
+        yield return new WaitForSeconds(.5f);
+        impact.DOColor(new Color(255, 255, 255, 1), .5f);
+        yield return new WaitForSeconds(.5f);
+        impact.DOColor(new Color(255, 255, 255, 0), .5f);
+        yield return new WaitForSeconds(.5f);
     }
 }

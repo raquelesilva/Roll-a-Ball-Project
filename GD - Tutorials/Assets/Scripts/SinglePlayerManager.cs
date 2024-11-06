@@ -13,6 +13,9 @@ public class SinglePlayerManager : MonoBehaviour
     [SerializeField] private GameObject nextLevelButton;
     [SerializeField] private GameObject pauseWindow;
     [SerializeField] private GameObject winWindow;
+    [SerializeField] private TextMeshProUGUI timerTxt;
+    [SerializeField] private TextMeshProUGUI scoreTxt;
+    [SerializeField] private TextMeshProUGUI powerupsTxt;
     [SerializeField] private GameObject loseWindow;
     [SerializeField] private Image lifeBar;
 
@@ -20,6 +23,11 @@ public class SinglePlayerManager : MonoBehaviour
     [SerializeField] private Transform pickupObjsParent;
     [SerializeField] public List<GameObject> pickupObjs;
     [SerializeField] public List<GameObject> powerupsObjs;
+
+    [SerializeField] public float timer;
+    [SerializeField] public int score;
+    [SerializeField] public int powerups;
+    [SerializeField] private bool playTimer;
 
     Player player;
     PlayerController playerController;
@@ -40,23 +48,33 @@ public class SinglePlayerManager : MonoBehaviour
         player = Player.instance;
     }
 
+    private void Update()
+    {
+        if (playTimer)
+        {
+            timer += Time.deltaTime;
+        }
+    }
+
     public void ResetGameUI()
     {
         points = 0;
         life = 100;
         pointsTxt.text = "Points: " + points.ToString();
         lifeBar.fillAmount = life  / 100;
-    }
-
-    public void SetWorld()
-    {
+        
         MenuManager.instance.ResumeGame();
         pauseWindow.SetActive(false);
 
         winWindow.SetActive(false);
         loseWindow.SetActive(false);
+    }
 
-        if (currentWorld != null) 
+    public void SetWorld()
+    {
+        playTimer = true;
+
+        if (currentWorld != null)
         {
             Destroy(currentWorld.gameObject);
             currentWorld = null;
@@ -94,6 +112,7 @@ public class SinglePlayerManager : MonoBehaviour
             MenuManager.instance.PauseGame();
             loseWindow.SetActive(true);
             nextLevelButton.SetActive(false);
+            playTimer = false;
         }
     }
 
@@ -105,8 +124,12 @@ public class SinglePlayerManager : MonoBehaviour
 
         if (points >= pickupObjs.Count * 5)
         {
+            playTimer = false;
             winWindow.SetActive(true);
 
+            timerTxt.text = timer.ToString();
+            scoreTxt.text = score.ToString();
+            powerupsTxt.text = score.ToString();
 
             Level currentLevelGO = player.GetCurrentLevel();
             int currentLevel = currentLevelGO.GetLevel();
@@ -122,7 +145,6 @@ public class SinglePlayerManager : MonoBehaviour
             }
 
             MenuManager.instance.PauseGame();
-
             EnemySpawner.instance.DestroyAllEnemies();
         }
     }

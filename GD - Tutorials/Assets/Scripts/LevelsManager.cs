@@ -49,7 +49,7 @@ public class LevelsManager : MonoBehaviour
                 currentButton.interactable = level.GetIndividualState();
                 currentButton.transform.GetChild(1).gameObject.SetActive(!level.GetIndividualState());
             }
-            else
+            else if (GameManager.instance.gameType == GameType.MultiPlayer)
             {
                 currentButton.interactable = level.GetCoopState();
                 currentButton.transform.GetChild(1).gameObject.SetActive(!level.GetCoopState());
@@ -66,8 +66,29 @@ public class LevelsManager : MonoBehaviour
         menuManager.materialsMenuWindow.SetActive(false);
         menuManager.gameMenu.SetActive(true);
 
+        Debug.Log(level.ToString());
+
+        if (player == null)
+        {
+            player = WorldHolder.instance;
+        }
+
         player.SetCurrentLevel(level);
 
         GameManager.instance.SetWorld();
+    }
+
+    public void PlayStory()
+    {
+        for (int i = levels.Count - 1; i >= 0; i--)
+        {
+            Level currentLevel = levels[i];
+
+            if (currentLevel.GetStoryState())
+            {
+                PlayLevel(currentLevel);
+                return;            
+            }
+        }
     }
 }

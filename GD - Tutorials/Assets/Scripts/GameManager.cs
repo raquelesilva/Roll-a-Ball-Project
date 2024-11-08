@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting;
@@ -19,12 +20,14 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject nextLevelButton;
     [SerializeField] private GameObject pauseWindow;
     [SerializeField] private GameObject winWindow;
+    [SerializeField] private GameObject winStoryWindow;
     [SerializeField] private TextMeshProUGUI timerTxt;
     [SerializeField] private TextMeshProUGUI scoreTxt;
     [SerializeField] private TextMeshProUGUI powerupsTxt;
     [SerializeField] private GameObject loseWindow;
     [SerializeField] private Image lifeBar1;
     [SerializeField] private Image lifeBar2;
+    [SerializeField] List<GameObject> stars = new();
 
     [SerializeField] public Transform currentWorld;
     [SerializeField] private Transform pickupObjsParent;
@@ -59,6 +62,7 @@ public class GameManager : MonoBehaviour
     public void ResetGameUI()
     {
         points = 0;
+        powerups = 0;
         player1.GetHealth().SetupLifes();
         player2.GetHealth().SetupLifes();
         pointsTxt.text = "Points: " + points.ToString();
@@ -68,6 +72,7 @@ public class GameManager : MonoBehaviour
 
         winWindow.SetActive(false);
         loseWindow.SetActive(false);
+        winStoryWindow.SetActive(false);
     }
 
     public void SetGameType(int newGameType)
@@ -141,12 +146,40 @@ public class GameManager : MonoBehaviour
 
         if (points >= pickupObjs.Count * 5)
         {
+            MenuManager.instance.PauseGame();
+
+            if (timer <= 1)
+            {
+                for (int i = 0; i < stars.Count; i++)
+                {
+                    stars[i].SetActive(true);
+                }
+            }
+            else if (timer > 1 && timer < 2)
+            {
+                for (int i = 0; i < 2; i++)
+                {
+                    stars[i].SetActive(true);
+                }
+
+                stars[2].SetActive(false);
+            }
+            else
+            {
+                stars[0].SetActive(true);
+              
+                for (int i = 1; i < stars.Count; i++)
+                {
+                    stars[i].SetActive(false);
+                }
+            }
+
             playTimer = false;
             winWindow.SetActive(true);
 
             timerTxt.text = timer.ToString();
             scoreTxt.text = score.ToString();
-            powerupsTxt.text = score.ToString();
+            powerupsTxt.text = powerups.ToString();
 
             Level currentLevelGO = worldHolder.GetCurrentLevel();
             int currentLevel = currentLevelGO.GetLevel();
@@ -154,24 +187,46 @@ public class GameManager : MonoBehaviour
             if (currentLevel >= LevelsManager.instance.levels.Count)
             {
                 nextLevelButton.SetActive(false);
-            }
-            else
+
+                if (gameType == GameType.StoryMode)
+                {
+                    winStoryWindow.SetActive(true);
+
+                    List<Level> levels = LevelsManager.instance.levels;
+
+                    for (int i = 1; i < levels.Count; i++)
+                    {
+                        levels[i].StoryLevels(true);
+                    }
+                }
+            } else
             {
                 if (gameType == GameType.MultiPlayer)
                 {
                     nextLevelButton.SetActive(true);
                     LevelsManager.instance.levels[currentLevel].UnlockCoopLevel();
                 }
-                else
+                else if (gameType == GameType.SinglePlayer)
                 {
                     nextLevelButton.SetActive(true);
                     LevelsManager.instance.levels[currentLevel].UnlockIndividualLevel();
+                }else if (gameType == GameType.StoryMode)
+                {
+                    nextLevelButton.SetActive(true);
+                    LevelsManager.instance.levels[currentLevel].StoryLevels(true);
                 }
             }
 
             MenuManager.instance.PauseGame();
             EnemySpawner.instance.DestroyAllEnemies();
         }
+    }
+
+    public void CheckPowerups()
+    {
+        powerups++;
+
+        powerupsTxt.text = powerups.ToString();
     }
 
     public PlayerController GetPlayer1()
@@ -183,8 +238,10 @@ public class GameManager : MonoBehaviour
         return player2;
     }
 }
+
 public enum GameType
 {
     SinglePlayer,
-    MultiPlayer
+    MultiPlayer,
+    StoryMode
 }

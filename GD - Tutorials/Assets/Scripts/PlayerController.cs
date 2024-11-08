@@ -18,7 +18,7 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] private Image impact;
 
-    public GameManager singlePlayerManager;
+    public GameManager gameManager;
 
     private Health myHealth;
 
@@ -36,7 +36,7 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
-        singlePlayerManager = GameManager.instance;
+        gameManager = GameManager.instance;
         initialPos = transform.position;
     }
 
@@ -63,7 +63,7 @@ public class PlayerController : MonoBehaviour
         if (other.CompareTag("PickUp"))
         {
             other.gameObject.SetActive(false);
-            singlePlayerManager.CheckPoints();
+            gameManager.CheckPoints();
         }
 
         if (other.CompareTag("Enemy"))
@@ -76,7 +76,7 @@ public class PlayerController : MonoBehaviour
 
         if (other.CompareTag("Powerup"))
         {
-            singlePlayerManager.powerups++;
+            gameManager.powerups++;
 
             other.GetComponent<Powerups>().SetPowerup();
         }

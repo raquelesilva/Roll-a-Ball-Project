@@ -1,6 +1,5 @@
 using DG.Tweening;
 using System.Collections;
-using System.Threading;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
@@ -9,11 +8,13 @@ public class PlayerController : MonoBehaviour
 {
     [Header("Player Components")]
     public Rigidbody rb;
+    [SerializeField] Vector3 initialPos;
 
     [Header("Movement")]
     private float movementX;
     private float movementY;
     [SerializeField] float speed = 0;
+    [SerializeField] public bool movePlayer = false;
 
     [SerializeField] private Image impact;
 
@@ -36,16 +37,18 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
         singlePlayerManager = GameManager.instance;
+        initialPos = transform.position;
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
-        Vector3 movement = new(movementX, 0.0f, movementY);
-
-        rb.AddForce(movement * speed);
+        if (movePlayer)
+        {
+            Vector3 movement = new(movementX, 0.0f, movementY);
+            rb.AddForce(movement * speed);
+        }
     }
-
 
     public void OnMove(InputAction.CallbackContext callBackContext)
     {
@@ -75,7 +78,7 @@ public class PlayerController : MonoBehaviour
         {
             singlePlayerManager.powerups++;
 
-            other.GetComponent<Downgrades>().SetDowngrade();
+            other.GetComponent<Powerups>().SetPowerup();
         }
 
         if (other.CompareTag("Downgrade"))
@@ -96,14 +99,22 @@ public class PlayerController : MonoBehaviour
         yield return new WaitForSeconds(.5f);
     }
 
+    public void GoToInitPlace()
+    {
+        transform.position = initialPos;
+        rb.useGravity = false;
+        rb.Sleep();
+        
+        movePlayer = false;
+    }
+
     public Health GetHealth()
     {
         return myHealth;
     }
+
     public Rigidbody GetRigidBody()
     {
         return rb;
     }
-
-    
 }

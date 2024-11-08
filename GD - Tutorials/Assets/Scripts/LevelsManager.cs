@@ -27,11 +27,15 @@ public class LevelsManager : MonoBehaviour
     {
         menuManager = MenuManager.instance;
         player = WorldHolder.instance;
-        SetButtons();
     }
 
     public void SetButtons()
     {
+        for (int i = 0; i < buttons.Count; i++)
+        {
+            Destroy(buttons[i]);
+        }
+
         foreach (var level in levels)
         {
             GameObject currentGO = Instantiate(buttonPrefab, buttonParent);
@@ -40,8 +44,16 @@ public class LevelsManager : MonoBehaviour
 
             currentGO.GetComponentInChildren<TextMeshProUGUI>().text = level.GetLevel().ToString();
 
-            currentButton.interactable = level.GetState();
-            currentButton.transform.GetChild(1).gameObject.SetActive(!level.GetState());
+            if (GameManager.instance.gameType == GameType.SinglePlayer)
+            {
+                currentButton.interactable = level.GetIndividualState();
+                currentButton.transform.GetChild(1).gameObject.SetActive(!level.GetIndividualState());
+            }
+            else
+            {
+                currentButton.interactable = level.GetCoopState();
+                currentButton.transform.GetChild(1).gameObject.SetActive(!level.GetCoopState());
+            }
 
             currentButton.onClick.AddListener(() => PlayLevel(level));
         }

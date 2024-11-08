@@ -6,7 +6,8 @@ using TMPro;
 
 public class MenuManager : MonoBehaviour
 {
-    PlayerController playerController;
+    PlayerController player1;
+    PlayerController player2;
     public static MenuManager instance;
 
     [Header("Windows")]
@@ -22,7 +23,8 @@ public class MenuManager : MonoBehaviour
 
     private void Start()
     {
-        playerController = PlayerController.instance;
+        player1 = GameManager.instance.GetPlayer1();
+        player2 = GameManager.instance.GetPlayer2();
 
         DontDestroyOnLoad(gameObject);
     }
@@ -46,7 +48,12 @@ public class MenuManager : MonoBehaviour
     public void GotoMainMenu()
     {
         Time.timeScale = 1;
+
+        CameraController.instance.SetFollow(false);
         
+        player1.GoToInitPlace();
+        player2.GoToInitPlace();
+
         if (GameManager.instance.currentWorld != null)
         {
             Destroy(GameManager.instance.currentWorld.gameObject);

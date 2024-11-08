@@ -8,7 +8,7 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
 
-    [SerializeField] private GameType gameType;
+    [SerializeField] public GameType gameType;
     [SerializeField] private PlayerController player1;
     [SerializeField] private PlayerController player2;
 
@@ -23,7 +23,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI scoreTxt;
     [SerializeField] private TextMeshProUGUI powerupsTxt;
     [SerializeField] private GameObject loseWindow;
-    [SerializeField] private Image lifeBar;
+    [SerializeField] private Image lifeBar1;
+    [SerializeField] private Image lifeBar2;
 
     [SerializeField] public Transform currentWorld;
     [SerializeField] private Transform pickupObjsParent;
@@ -80,12 +81,26 @@ public class GameManager : MonoBehaviour
         player1.GetRigidBody().useGravity = true;
         player1.GetHealth().SetupLifes();
 
+        player1.movePlayer = true;
+
         player2.gameObject.SetActive(gameType == GameType.MultiPlayer);
         player2.GetRigidBody().useGravity = gameType == GameType.MultiPlayer;
-        if(gameType == GameType.MultiPlayer) player2.GetHealth().SetupLifes();
+
+        if(gameType == GameType.MultiPlayer)
+        {
+            player2.GetHealth().SetupLifes();
+            lifeBar2.gameObject.SetActive(true);
+            player2.movePlayer = true;
+            CameraController.instance.SetFollow(false);
+        }
+        else
+        {
+            lifeBar2.gameObject.SetActive(false);
+
+            CameraController.instance.SetFollow(true);
+        }
 
         playTimer = true;
-
 
         if (currentWorld != null)
         {
@@ -142,8 +157,16 @@ public class GameManager : MonoBehaviour
             }
             else
             {
-                nextLevelButton.SetActive(true);
-                LevelsManager.instance.levels[currentLevel].UnlockLevel();
+                if (gameType == GameType.MultiPlayer)
+                {
+                    nextLevelButton.SetActive(true);
+                    LevelsManager.instance.levels[currentLevel].UnlockCoopLevel();
+                }
+                else
+                {
+                    nextLevelButton.SetActive(true);
+                    LevelsManager.instance.levels[currentLevel].UnlockIndividualLevel();
+                }
             }
 
             MenuManager.instance.PauseGame();

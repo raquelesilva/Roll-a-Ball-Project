@@ -35,5 +35,7 @@ public class Downgrades : MonoBehaviour
         {
             // Get enemies to speedup
         }
+
+        Destroy(gameObject);
     }
 }

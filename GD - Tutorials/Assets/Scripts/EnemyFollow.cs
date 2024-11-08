@@ -14,7 +14,7 @@ public class EnemyFollow : MonoBehaviour
 
         if (player == null)
         {
-            player = PlayerController.instance.transform;
+            player = GameManager.instance.GetPlayer1().transform;
         }
     }
 

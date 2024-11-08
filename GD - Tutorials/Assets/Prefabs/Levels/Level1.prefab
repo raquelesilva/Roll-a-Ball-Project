@@ -45,6 +45,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isUnlocked: 1
+  isCoopUnlocked: 1
   level: 1
   levelPoints: 0
   worldPrefab: {fileID: 2559891669490964053, guid: 12c77ac412c1c5a49a6f12703a20d81f,

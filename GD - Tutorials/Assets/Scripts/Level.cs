@@ -5,13 +5,15 @@ using System;
 public class Level : MonoBehaviour
 {
     [SerializeField] bool isUnlocked = false;
+    [SerializeField] bool isCoopUnlocked = false;
     [SerializeField] int level;
     [SerializeField] int levelPoints;
 
     [SerializeField] GameObject worldPrefab;
 
     // GETTERS
-    public bool GetState() {  return isUnlocked; }
+    public bool GetIndividualState() {  return isUnlocked; }
+    public bool GetCoopState() {  return isCoopUnlocked; }
 
     public int GetLevel(){ return level; }
 
@@ -20,7 +22,8 @@ public class Level : MonoBehaviour
     public GameObject GetWorldPrefab(){ return worldPrefab; }
 
     // SETTERS
-    public void UnlockLevel() { isUnlocked = true; }
+    public void UnlockIndividualLevel() { isUnlocked = true; }
+    public void UnlockCoopLevel() { isCoopUnlocked = true; }
 
     public void SetPoints(int points) { levelPoints = points; }
 }

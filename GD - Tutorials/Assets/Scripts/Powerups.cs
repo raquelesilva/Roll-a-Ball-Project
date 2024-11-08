@@ -35,5 +35,7 @@ public class Powerups : MonoBehaviour
         {
             // Get enemies to leave and catch them
         }
+
+        Destroy(gameObject);
     }
 }

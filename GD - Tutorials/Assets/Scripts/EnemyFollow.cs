@@ -3,10 +3,12 @@ using UnityEngine.AI;
 
 public class EnemyFollow : MonoBehaviour
 {
+    public Rigidbody rb;
+
     [SerializeField] Transform player;
     private NavMeshAgent navMeshAgent;
 
-    [SerializeField]float enemySpeed = 2.5f;
+    [SerializeField]float enemyStartSpeed = 2.5f;
 
     void Start()
     {
@@ -16,6 +18,8 @@ public class EnemyFollow : MonoBehaviour
         {
             player = GameManager.instance.GetPlayer1().transform;
         }
+
+        rb = GetComponent<Rigidbody>();
     }
 
     void Update()
@@ -23,6 +27,12 @@ public class EnemyFollow : MonoBehaviour
         if (player != null)
         {
             navMeshAgent.SetDestination(player.position);
+
         }
+    }
+
+    public void SetSpeed(float enemySpeedIncrement)
+    {
+        navMeshAgent.speed *= enemySpeedIncrement;
     }
 }

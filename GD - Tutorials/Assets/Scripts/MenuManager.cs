@@ -16,6 +16,9 @@ public class MenuManager : MonoBehaviour
     [SerializeField] public GameObject materialsMenuWindow;
     [SerializeField] public GameObject gameMenu;
 
+    [SerializeField] AudioClip mainMusic;
+    [SerializeField] AudioSource backgroundMusic;
+
     private void Awake()
     {
         instance = this;
@@ -64,6 +67,9 @@ public class MenuManager : MonoBehaviour
         levelsMenuWindow.SetActive(false);
         materialsMenuWindow.SetActive(false);
         gameMenu.SetActive(false);
+
+        backgroundMusic.clip = mainMusic;
+        backgroundMusic.Play();
     }
 
     public void GotoNextLevel()

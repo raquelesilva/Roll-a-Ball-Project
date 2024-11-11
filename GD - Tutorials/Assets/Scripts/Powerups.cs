@@ -1,3 +1,7 @@
+using NUnit.Framework;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class Powerups : MonoBehaviour
@@ -33,7 +37,30 @@ public class Powerups : MonoBehaviour
         }
         else
         {
-            // Get enemies to leave and catch them
+            SetEnemySpeedMultiplier(-.5f);
+        }
+
+        gameObject.GetComponent<MeshRenderer>().enabled = false;
+        StartCoroutine(DisablePowerup());
+    }
+
+    public void SetEnemySpeedMultiplier(float newEnemySpeed)
+    {
+        var allEnemys = FindObjectsByType<EnemyFollow>(FindObjectsSortMode.None).ToList();
+        allEnemys.ForEach(x => x.SetSpeed(newEnemySpeed));
+    }
+
+    IEnumerator DisablePowerup()
+    {
+        yield return new WaitForSeconds(timer);
+
+        if (isSpeed)
+        {
+            WorldHolder.instance.SetSpeedMultiplier(1);
+        }
+        else
+        {
+            SetEnemySpeedMultiplier(1);
         }
 
         Destroy(gameObject);

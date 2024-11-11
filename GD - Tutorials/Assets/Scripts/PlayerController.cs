@@ -46,7 +46,7 @@ public class PlayerController : MonoBehaviour
         if (movePlayer)
         {
             Vector3 movement = new(movementX, 0.0f, movementY);
-            rb.AddForce(movement * speed);
+            rb.AddForce(movement * speed * WorldHolder.instance.GetSpeedMultiplier());
         }
     }
 
@@ -64,12 +64,16 @@ public class PlayerController : MonoBehaviour
         {
             other.gameObject.SetActive(false);
             gameManager.CheckPoints();
+            AudioSource audioSource = other.GetComponent<AudioSource>();
+            audioSource.Play();
         }
 
         if (other.CompareTag("Enemy"))
         {
             //singlePlayerManager.CheckLife();
             myHealth.TakeDamage();
+            AudioSource audioSource = other.GetComponent<AudioSource>();
+            audioSource.Play();
 
             StartCoroutine(FlashRed());
         }
@@ -77,12 +81,16 @@ public class PlayerController : MonoBehaviour
         if (other.CompareTag("Powerup"))
         {
             gameManager.powerups++;
+            AudioSource audioSource = other.GetComponent<AudioSource>();
+            audioSource.Play();
 
             other.GetComponent<Powerups>().SetPowerup();
         }
 
         if (other.CompareTag("Downgrade"))
         {
+            AudioSource audioSource = other.GetComponent<AudioSource>();
+            audioSource.Play();
             other.GetComponent<Downgrades>().SetDowngrade();
         }
     }

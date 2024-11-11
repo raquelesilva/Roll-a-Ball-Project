@@ -1,9 +1,11 @@
+using System.Collections;
+using System.Linq;
 using UnityEngine;
 
 public class Downgrades : MonoBehaviour
 {
     [SerializeField] bool isSpeed;
-    [SerializeField] int speed;
+    [SerializeField] float speed;
 
     [SerializeField] float timer = 10;
     [SerializeField] float currentTime;
@@ -29,11 +31,34 @@ public class Downgrades : MonoBehaviour
 
         if (isSpeed)
         {
-            WorldHolder.instance.SetSpeedMultiplier(-speed);
+            WorldHolder.instance.SetSpeedMultiplier(speed);
         }
         else
         {
-            // Get enemies to speedup
+            SetEnemySpeedMultiplier(.5f);
+        }
+
+        gameObject.GetComponent<MeshRenderer>().enabled = false;
+        StartCoroutine(DisablePowerup());
+    }
+
+    public void SetEnemySpeedMultiplier(float newEnemySpeed)
+    {
+        var allEnemys = FindObjectsByType<EnemyFollow>(FindObjectsSortMode.None).ToList();
+        allEnemys.ForEach(x => x.SetSpeed(newEnemySpeed));
+    }
+
+    IEnumerator DisablePowerup()
+    {
+        yield return new WaitForSeconds(timer);
+
+        if (isSpeed)
+        {
+            WorldHolder.instance.SetSpeedMultiplier(1);
+        }
+        else
+        {
+            SetEnemySpeedMultiplier(1);
         }
 
         Destroy(gameObject);

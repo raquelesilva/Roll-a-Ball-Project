@@ -15,6 +15,9 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] int points = 0;
 
+    [SerializeField] AudioClip gameMusic;
+    [SerializeField] AudioSource backgroundMusic;
+
     [Header("UI Elements")]
     [SerializeField] private TextMeshProUGUI pointsTxt;
     [SerializeField] private GameObject nextLevelButton;
@@ -126,6 +129,9 @@ public class GameManager : MonoBehaviour
                 pickupObjs.Add(pickupObjsParent.GetChild(i).gameObject);
             }
         }
+
+        backgroundMusic.clip = gameMusic;
+        backgroundMusic.Play();
 
         ResetGameUI();
     }

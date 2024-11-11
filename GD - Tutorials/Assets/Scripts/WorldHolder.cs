@@ -6,7 +6,7 @@ public class WorldHolder : MonoBehaviour
     [SerializeField] Material materialPlayer1;
     [SerializeField] Material materialPlayer2;
 
-    [SerializeField] int speedMultiplier;
+    [SerializeField] float speedMultiplier = 1;
 
     [SerializeField] Level currentLevel;
 
@@ -27,7 +27,7 @@ public class WorldHolder : MonoBehaviour
     // GETTERS
     public Material GetMaterial () { return materialPlayer1; }
 
-    public int GetSpeedMultiplier () { return speedMultiplier; }
+    public float GetSpeedMultiplier () { return speedMultiplier; }
 
     public Level GetCurrentLevel () { return currentLevel; }
 
@@ -58,7 +58,7 @@ public class WorldHolder : MonoBehaviour
         GameManager.instance.GetPlayer1().GetComponent<Renderer>().material = chosenMaterial;
     }
 
-    public void SetSpeedMultiplier (int multiplier) { speedMultiplier = multiplier; }
+    public void SetSpeedMultiplier (float multiplier) { speedMultiplier = multiplier; }
 
     public void SetCurrentLevel (Level level) { currentLevel = level; }
 

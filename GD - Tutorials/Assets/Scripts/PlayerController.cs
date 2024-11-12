@@ -72,6 +72,7 @@ public class PlayerController : MonoBehaviour
             AudioSource audioSource = other.GetComponent<AudioSource>();
             audioSource.Play();
 
+
             StartCoroutine(FlashRed(other.GetComponent<Collider>()));
         }
 
@@ -95,6 +96,8 @@ public class PlayerController : MonoBehaviour
 
     private IEnumerator FlashRed(Collider enemyCollider)
     {
+        enemyCollider.enabled = false;
+
         impact.DOColor(new Color(255, 255, 255, 1), .5f);
         yield return new WaitForSeconds(.5f);
         impact.DOColor(new Color(255, 255, 255, 0), .5f);
@@ -103,6 +106,8 @@ public class PlayerController : MonoBehaviour
         yield return new WaitForSeconds(.5f);
         impact.DOColor(new Color(255, 255, 255, 0), .5f);
         yield return new WaitForSeconds(.5f);
+        
+        enemyCollider.enabled = true;
     }
 
     public void GoToInitPlace()

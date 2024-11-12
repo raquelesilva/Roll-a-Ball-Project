@@ -31,6 +31,7 @@ public class Downgrades : MonoBehaviour
 
         if (isSpeed)
         {
+            Debug.Log("Player Speed downgrade");
             WorldHolder.instance.SetSpeedMultiplier(speed);
         }
         else

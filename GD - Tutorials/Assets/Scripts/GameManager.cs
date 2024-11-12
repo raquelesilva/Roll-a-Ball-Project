@@ -88,6 +88,8 @@ public class GameManager : MonoBehaviour
     {
         StopAllCoroutines();
 
+        WorldHolder.instance.SetSpeedMultiplier(1f);
+
         player1.GoToInitPlace();
         player2.GoToInitPlace();
 

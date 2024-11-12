@@ -24,6 +24,7 @@ public class PlayerHealth : MonoBehaviour
 
     public void TakeDamage()
     {
+        Debug.Log("TakeDamage");
         currentHealth -= .1f;
         currentHealth = Mathf.Clamp(currentHealth, 0, 1);
 

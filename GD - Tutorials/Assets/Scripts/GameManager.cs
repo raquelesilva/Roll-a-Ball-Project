@@ -102,6 +102,7 @@ public class GameManager : MonoBehaviour
 
         if(gameType == GameType.MultiPlayer)
         {
+            player2.gameObject.SetActive(true);
             player2.GetHealth().SetupLifes();
             lifeBar2.gameObject.SetActive(true);
             player2.movePlayer = true;
@@ -109,7 +110,9 @@ public class GameManager : MonoBehaviour
         }
         else
         {
+            player2.gameObject.SetActive(false);
             lifeBar2.gameObject.SetActive(false);
+            player2.movePlayer = false;
 
             CameraController.instance.SetFollow(true);
         }

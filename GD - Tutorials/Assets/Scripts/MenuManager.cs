@@ -28,8 +28,6 @@ public class MenuManager : MonoBehaviour
     {
         player1 = GameManager.instance.GetPlayer1();
         player2 = GameManager.instance.GetPlayer2();
-
-        DontDestroyOnLoad(gameObject);
     }
 
     public void PauseGame()

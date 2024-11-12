@@ -35,10 +35,6 @@ public class WorldHolder : MonoBehaviour
     {
         int currentLevelInt = 0;
 
-        Debug.Log(levelsManager);
-        Debug.Log(levelsManager.levels);
-        Debug.Log(levelsManager.levels.Count);
-
         for (int i = 0; i < levelsManager.levels.Count; i++)
         {
             Level level = levelsManager.levels[i];

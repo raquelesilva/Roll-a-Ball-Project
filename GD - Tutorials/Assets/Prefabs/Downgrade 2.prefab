@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 6431423565076721729}
   - component: {fileID: -4593322921466480424}
   - component: {fileID: -3862522068821145345}
+  - component: {fileID: 6557672359744245738}
   m_Layer: 0
   m_Name: Downgrade 2
   m_TagString: Downgrade
@@ -267,3 +268,21 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &6557672359744245738
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8178110462150648290}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  outlineMode: 4
+  outlineColor: {r: 0.9137255, g: 0.34901962, b: 0.34901962, a: 1}
+  outlineWidth: 2
+  precomputeOutline: 0
+  bakeKeys: []
+  bakeValues: []

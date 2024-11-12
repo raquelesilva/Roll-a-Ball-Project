@@ -7,7 +7,7 @@ using UnityEngine;
 public class Powerups : MonoBehaviour
 {
     [SerializeField] bool isSpeed;
-    [SerializeField] int speed;
+    [SerializeField] float speed;
 
     [SerializeField] float timer = 10;
     [SerializeField] float currentTime;

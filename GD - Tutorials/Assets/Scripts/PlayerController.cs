@@ -20,7 +20,7 @@ public class PlayerController : MonoBehaviour
 
     public GameManager gameManager;
 
-    private Health myHealth;
+    private PlayerHealth myHealth;
 
     public static PlayerController instance;
 
@@ -28,10 +28,8 @@ public class PlayerController : MonoBehaviour
     {
         instance = this;
 
-        DontDestroyOnLoad(gameObject);
-
         rb = GetComponent<Rigidbody>();
-        myHealth = GetComponent<Health>();
+        myHealth = GetComponent<PlayerHealth>();
     }
 
     private void Start()
@@ -70,20 +68,19 @@ public class PlayerController : MonoBehaviour
 
         if (other.CompareTag("Enemy"))
         {
-            //singlePlayerManager.CheckLife();
             myHealth.TakeDamage();
             AudioSource audioSource = other.GetComponent<AudioSource>();
             audioSource.Play();
 
-            StartCoroutine(FlashRed());
+            StartCoroutine(FlashRed(other.GetComponent<Collider>()));
         }
 
         if (other.CompareTag("Powerup"))
         {
-            gameManager.powerups++;
             AudioSource audioSource = other.GetComponent<AudioSource>();
             audioSource.Play();
 
+            gameManager.CheckPowerups();
             other.GetComponent<Powerups>().SetPowerup();
         }
 
@@ -91,11 +88,12 @@ public class PlayerController : MonoBehaviour
         {
             AudioSource audioSource = other.GetComponent<AudioSource>();
             audioSource.Play();
+
             other.GetComponent<Downgrades>().SetDowngrade();
         }
     }
 
-    private IEnumerator FlashRed()
+    private IEnumerator FlashRed(Collider enemyCollider)
     {
         impact.DOColor(new Color(255, 255, 255, 1), .5f);
         yield return new WaitForSeconds(.5f);
@@ -116,7 +114,7 @@ public class PlayerController : MonoBehaviour
         movePlayer = false;
     }
 
-    public Health GetHealth()
+    public PlayerHealth GetHealth()
     {
         return myHealth;
     }

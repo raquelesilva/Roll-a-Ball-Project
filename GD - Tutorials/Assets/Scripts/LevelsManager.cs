@@ -6,6 +6,8 @@ using UnityEngine.UI;
 
 public class LevelsManager : MonoBehaviour
 {
+    [SerializeField] TextMeshProUGUI title;
+
     [SerializeField] public List<Level> levels = new List<Level>();
     [SerializeField] List<GameObject> buttons = new List<GameObject>();
 
@@ -46,13 +48,35 @@ public class LevelsManager : MonoBehaviour
 
             if (GameManager.instance.gameType == GameType.SinglePlayer)
             {
+                title.text = "Single Player";
                 currentButton.interactable = level.GetIndividualState();
                 currentButton.transform.GetChild(1).gameObject.SetActive(!level.GetIndividualState());
+
+                if (level.GetSingleStars() > 0)
+                {
+                    Transform starsParent = currentButton.transform.GetChild(2);
+
+                    for (int i = 0; i < level.GetSingleStars(); i++)
+                    {
+                        starsParent.GetChild(i).gameObject.SetActive(true);
+                    }
+                }
             }
             else if (GameManager.instance.gameType == GameType.MultiPlayer)
             {
+                title.text = "Multiplayer";
                 currentButton.interactable = level.GetCoopState();
                 currentButton.transform.GetChild(1).gameObject.SetActive(!level.GetCoopState());
+
+                if (level.GetCoopStars() > 0)
+                {
+                    Transform starsParent = currentButton.transform.GetChild(2);
+
+                    for (int i = 0; i < level.GetCoopStars(); i++)
+                    {
+                        starsParent.GetChild(i).gameObject.SetActive(true);
+                    }
+                }
             }
 
             currentButton.onClick.AddListener(() => PlayLevel(level));
@@ -65,8 +89,6 @@ public class LevelsManager : MonoBehaviour
         menuManager.levelsMenuWindow.SetActive(false);
         menuManager.materialsMenuWindow.SetActive(false);
         menuManager.gameMenu.SetActive(true);
-
-        Debug.Log(level.ToString());
 
         if (player == null)
         {

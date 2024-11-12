@@ -6,10 +6,11 @@ using UnityEngine.UI;
 
 public class MaterialManager : MonoBehaviour
 {
-    [SerializeField] List<MaterialSO> materials = new List<MaterialSO>();
-    [SerializeField] List<GameObject> buttons = new List<GameObject>();
+    [SerializeField] List<MaterialSO> materials = new();
+    [SerializeField] List<GameObject> buttons = new();
 
-    Sprite circleSprite;
+    [SerializeField] Image mainCircleSprite;
+    [SerializeField] Image chooseCircleSprite;
 
     [SerializeField] GameObject buttonPrefab;
     [SerializeField] Transform buttonParent;
@@ -37,12 +38,14 @@ public class MaterialManager : MonoBehaviour
             currentButton.transform.GetChild(1).gameObject.SetActive(material.IsLocked());
 
             currentButton.onClick.RemoveAllListeners();
-            currentButton.onClick.AddListener(() => ChangeMaterial(material.GetMaterial()));
+            currentButton.onClick.AddListener(() => ChangeMaterial(material));
         }
     }
 
-    public void ChangeMaterial(Material material)
+    public void ChangeMaterial(MaterialSO material)
     {
-        player.SetMaterial(material);
+        player.SetMaterial(material.GetMaterial());
+        mainCircleSprite.sprite = material.GetPreview();
+        chooseCircleSprite.sprite = material.GetPreview();
     }
 }

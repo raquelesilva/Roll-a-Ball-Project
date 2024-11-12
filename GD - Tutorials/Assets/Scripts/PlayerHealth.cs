@@ -1,9 +1,9 @@
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
-public class Health : MonoBehaviour
+public class PlayerHealth : MonoBehaviour
 {
-    [SerializeField] private float currentHealth;
+    [SerializeField] private float currentHealth = 1;
     [Header("UI Elements")]
     [SerializeField] private Image myHealthSlider;
 

@@ -14,8 +14,8 @@ GameObject:
   - component: {fileID: 1746456682721520363}
   - component: {fileID: 56645432560905734}
   - component: {fileID: 8441502285194096102}
-  - component: {fileID: 194184327397131768}
-  - component: {fileID: 3737325868107543167}
+  - component: {fileID: 5600818542754582551}
+  - component: {fileID: 439168189789848164}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -152,10 +152,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rb: {fileID: 56645432560905734}
+  initialPos: {x: 0, y: 0, z: 0}
   speed: 10
+  movePlayer: 0
   impact: {fileID: 0}
-  singlePlayerManager: {fileID: 0}
---- !u!114 &194184327397131768
+  gameManager: {fileID: 0}
+--- !u!114 &5600818542754582551
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -164,24 +166,26 @@ MonoBehaviour:
   m_GameObject: {fileID: 4393844215817688958}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c11b2520a95cd0644bc7e9d102d63da2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  material: {fileID: 2100000, guid: 57f61014b4b6e1448b130913f392b480, type: 2}
-  speedMultiplier: 0
-  currentLevel: {fileID: 0}
---- !u!114 &3737325868107543167
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4393844215817688958}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6d5f77e5bd2e21248ab23cea8d68bb61, type: 3}
+  m_Script: {fileID: 11500000, guid: c807d15f437f89d4293f365eea0ed02e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   currentHealth: 0
-  maxHealth: 0
   myHealthSlider: {fileID: 0}
+--- !u!114 &439168189789848164
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4393844215817688958}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  outlineMode: 4
+  outlineColor: {r: 1, g: 1, b: 1, a: 1}
+  outlineWidth: 2
+  precomputeOutline: 0
+  bakeKeys: []
+  bakeValues: []

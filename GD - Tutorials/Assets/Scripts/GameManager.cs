@@ -1,4 +1,5 @@
 using JetBrains.Annotations;
+using System;
 using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting;
@@ -13,20 +14,20 @@ public class GameManager : MonoBehaviour
     [SerializeField] private PlayerController player1;
     [SerializeField] private PlayerController player2;
 
-    [SerializeField] int points = 0;
 
     [SerializeField] AudioClip gameMusic;
     [SerializeField] AudioSource backgroundMusic;
 
     [Header("UI Elements")]
-    [SerializeField] private TextMeshProUGUI pointsTxt;
+    [SerializeField] private TextMeshProUGUI scoreTxt;
+    [SerializeField] private TextMeshProUGUI powerupsTxt;
     [SerializeField] private GameObject nextLevelButton;
     [SerializeField] private GameObject pauseWindow;
     [SerializeField] private GameObject winWindow;
     [SerializeField] private GameObject winStoryWindow;
+    [SerializeField] private TextMeshProUGUI scoreEndTxt;
+    [SerializeField] private TextMeshProUGUI powerupsEndTxt;
     [SerializeField] private TextMeshProUGUI timerTxt;
-    [SerializeField] private TextMeshProUGUI scoreTxt;
-    [SerializeField] private TextMeshProUGUI powerupsTxt;
     [SerializeField] private GameObject loseWindow;
     [SerializeField] private Image lifeBar1;
     [SerializeField] private Image lifeBar2;
@@ -37,9 +38,9 @@ public class GameManager : MonoBehaviour
     [SerializeField] public List<GameObject> pickupObjs;
     [SerializeField] public List<GameObject> powerupsObjs;
 
-    [SerializeField] public float timer;
-    [SerializeField] public int score;
+    [SerializeField] int points = 0;
     [SerializeField] public int powerups;
+    [SerializeField] public float timer;
     [SerializeField] private bool playTimer;
 
     WorldHolder worldHolder;
@@ -68,7 +69,7 @@ public class GameManager : MonoBehaviour
         powerups = 0;
         player1.GetHealth().SetupLifes();
         player2.GetHealth().SetupLifes();
-        pointsTxt.text = "Points: " + points.ToString();
+        scoreTxt.text = "Points: " + points.ToString();
 
         MenuManager.instance.ResumeGame();
         pauseWindow.SetActive(false);
@@ -85,6 +86,11 @@ public class GameManager : MonoBehaviour
 
     public void SetWorld()
     {
+        StopAllCoroutines();
+
+        player1.GoToInitPlace();
+        player2.GoToInitPlace();
+
         player1.gameObject.SetActive(true);
         player1.GetRigidBody().useGravity = true;
         player1.GetHealth().SetupLifes();
@@ -148,21 +154,34 @@ public class GameManager : MonoBehaviour
     {
         points += 5;
 
-        pointsTxt.text = "Points: " + points.ToString();
+        scoreTxt.text = "Points: " + points.ToString();
 
         if (points >= pickupObjs.Count * 5)
         {
             MenuManager.instance.PauseGame();
 
-            if (timer <= 1)
+            playTimer = false;
+            winWindow.SetActive(true);
+
+            timer = TimeSpan.FromSeconds(timer).Seconds;
+
+            scoreEndTxt.text = "Points: " + points.ToString();
+            powerupsEndTxt.text = powerups.ToString();
+            timerTxt.text = TimeSpan.FromSeconds(timer).Minutes.ToString() + "m :" + TimeSpan.FromSeconds(timer).Seconds.ToString() + "s";
+
+            int starsCount = 0;
+
+            if (timer <= 30)
             {
+                starsCount = 3;
                 for (int i = 0; i < stars.Count; i++)
                 {
                     stars[i].SetActive(true);
                 }
             }
-            else if (timer > 1 && timer < 2)
+            else if (timer > 80 && timer < 60)
             {
+                starsCount = 2;
                 for (int i = 0; i < 2; i++)
                 {
                     stars[i].SetActive(true);
@@ -172,6 +191,7 @@ public class GameManager : MonoBehaviour
             }
             else
             {
+                starsCount = 1;
                 stars[0].SetActive(true);
               
                 for (int i = 1; i < stars.Count; i++)
@@ -180,14 +200,10 @@ public class GameManager : MonoBehaviour
                 }
             }
 
-            playTimer = false;
-            winWindow.SetActive(true);
-
-            timerTxt.text = timer.ToString();
-            scoreTxt.text = score.ToString();
-            powerupsTxt.text = powerups.ToString();
-
             Level currentLevelGO = worldHolder.GetCurrentLevel();
+            
+            currentLevelGO.SetSingleStars(starsCount);
+
             int currentLevel = currentLevelGO.GetLevel();
 
             if (currentLevel >= LevelsManager.instance.levels.Count)
@@ -209,11 +225,16 @@ public class GameManager : MonoBehaviour
             {
                 if (gameType == GameType.MultiPlayer)
                 {
+                    currentLevelGO.SetCoopStars(starsCount);
+
                     nextLevelButton.SetActive(true);
                     LevelsManager.instance.levels[currentLevel].UnlockCoopLevel();
+
                 }
                 else if (gameType == GameType.SinglePlayer)
                 {
+                    currentLevelGO.SetSingleStars(starsCount);
+
                     nextLevelButton.SetActive(true);
                     LevelsManager.instance.levels[currentLevel].UnlockIndividualLevel();
                 }else if (gameType == GameType.StoryMode)

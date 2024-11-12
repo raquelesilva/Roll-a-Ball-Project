@@ -16,7 +16,23 @@ public class EnemyFollow : MonoBehaviour
 
         if (player == null)
         {
-            player = GameManager.instance.GetPlayer1().transform;
+            if(GameManager.instance.gameType == GameType.SinglePlayer || GameManager.instance.gameType == GameType.StoryMode)
+            {
+                player = GameManager.instance.GetPlayer1().transform; 
+            }
+            else
+            {
+                int randomFollow = Random.Range(0, 10);
+
+                if (randomFollow % 2 == 0)
+                {
+                    player = GameManager.instance.GetPlayer1().transform; 
+                }
+                else
+                {
+                    player = GameManager.instance.GetPlayer2().transform;
+                }
+            }
         }
 
         rb = GetComponent<Rigidbody>();
@@ -27,7 +43,6 @@ public class EnemyFollow : MonoBehaviour
         if (player != null)
         {
             navMeshAgent.SetDestination(player.position);
-
         }
     }
 

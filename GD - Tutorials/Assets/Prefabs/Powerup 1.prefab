@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 6431423565076721729}
   - component: {fileID: -1447381397058443821}
   - component: {fileID: 7279199621916107525}
+  - component: {fileID: -8744092288933354470}
   m_Layer: 0
   m_Name: Powerup 1
   m_TagString: Powerup
@@ -166,7 +167,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isSpeed: 1
-  speed: 3
+  speed: 0.5
   timer: 10
   currentTime: 0
   countDown: 0
@@ -267,3 +268,21 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &-8744092288933354470
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8178110462150648290}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  outlineMode: 4
+  outlineColor: {r: 0.007843138, g: 1, b: 0, a: 1}
+  outlineWidth: 2
+  precomputeOutline: 0
+  bakeKeys: []
+  bakeValues: []
